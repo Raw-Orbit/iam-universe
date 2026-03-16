@@ -19,14 +19,41 @@ Welcome to the **Raw Orbit vww 3³** repository. Knowledge is powerful and life 
 ```
 Vibe-Wizzards-Wyrd/
 ├── README.md          # You are here
-└── CONTRIBUTING.md    # How to contribute
+├── CONTRIBUTING.md    # How to contribute
+├── iam_sim.py         # IAM simulation & visualisation script
+└── requirements.txt   # Python dependencies
 ```
+
+---
+
+## IAM Simulation
+
+`iam_sim.py` is a Python script that simulates and visualises **IAM (i.am) grids** in 2-D and 3-D.
+
+### Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### Usage
+
+| Command | Description |
+|---------|-------------|
+| `python iam_sim.py 2d` | 2-D final-state heatmap (32×32) |
+| `python iam_sim.py 2d-live` | 2-D live animated heatmap |
+| `python iam_sim.py 3d` | 3-D CLI slice at X=8 (16³) |
+| `python iam_sim.py 3d-cosmos` | 3-D COSMOS slice at Y=8 (16³) |
+| `python iam_sim.py --help` | Full option reference |
+
+Each sub-command accepts `--size`, `--steps` / `--frames`, `--axis`, `--idx`, and `--init` flags — see `--help` for details.
 
 ---
 
 ## Goals
 
-- [ ] Organize and document the repository
+- [x] Organize and document the repository
+- [x] Add IAM simulation script (`iam_sim.py`)
 - [ ] Define the core framework concepts
 - [ ] Build a structured foundation for collaboration
 - [ ] Invite contributors to co-develop the vision
