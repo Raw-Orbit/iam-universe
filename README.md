@@ -20,6 +20,8 @@ Welcome to the **Raw Orbit vww 3³** repository. Knowledge is powerful and life 
 Vibe-Wizzards-Wyrd/
 ├── README.md          # You are here
 ├── CONTRIBUTING.md    # How to contribute
+├── GIST.md            # What is a GitHub Gist and how to use one
+├── LEARNING.md        # Roadmap: how computers & AI work
 ├── iam_sim.py         # IAM simulation & visualisation script
 └── requirements.txt   # Python dependencies
 ```
@@ -68,7 +70,7 @@ Community contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.
 
 ## Author
 
-**E.C.Pabel** — Origin independent researcher, Germany
+**E.C.Pabel** — Independent researcher, Germany
 - GitHub: [@MaxLvNPC](https://github.com/MaxLvNPC)
 - Organization: [Raw-Orbit](https://github.com/Raw-Orbit)
 

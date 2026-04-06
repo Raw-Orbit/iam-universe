@@ -23,6 +23,11 @@ Found a bug or have a suggestion? Open an issue with:
 - A description of the problem or idea
 - Steps to reproduce (if applicable)
 
+## New here?
+
+- [GIST.md](GIST.md) — explains what a GitHub Gist is and when to use one instead of a repository
+- [LEARNING.md](LEARNING.md) — a plain-English roadmap for learning how computers and AI work
+
 ---
 
 *Together we find out what this can become.*
