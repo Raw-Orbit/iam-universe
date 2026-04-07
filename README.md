@@ -22,7 +22,10 @@ Vibe-Wizzards-Wyrd/
 ├── CONTRIBUTING.md    # How to contribute
 ├── GIST.md            # What is a GitHub Gist and how to use one
 ├── LEARNING.md        # Roadmap: how computers & AI work
+├── ROADMAP.md         # 3³OS vision and phased development plan
 ├── iam_sim.py         # IAM simulation & visualisation script
+├── scenarios/
+│   └── local_crisis.py  # Example: crisis-region grid scenario
 └── requirements.txt   # Python dependencies
 ```
 
@@ -56,8 +59,8 @@ Each sub-command accepts `--size`, `--steps` / `--frames`, `--axis`, `--idx`, an
 
 - [x] Organize and document the repository
 - [x] Add IAM simulation script (`iam_sim.py`)
-- [ ] Define the core framework concepts
-- [ ] Build a structured foundation for collaboration
+- [x] Define the core framework concepts ([ROADMAP.md](ROADMAP.md))
+- [ ] Build a modular 3³OS package structure
 - [ ] Invite contributors to co-develop the vision
 
 ---
