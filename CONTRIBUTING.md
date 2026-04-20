@@ -1,4 +1,4 @@
-# Contributing to Vibe Wizzards Wyrd
+# Contributing to iam_universe
 
 Thank you for your interest in contributing to the **i.am** framework!
 

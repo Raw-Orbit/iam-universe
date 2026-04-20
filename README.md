@@ -1,8 +1,8 @@
-# i.am — Vibe Wizzards Wyrd (vww 3³)
+# iam_universe — 3³OS
 
-> *Framework of E.C.Pabel — Raw Orbit*
+> *Framework of E.C.Pabel — Raw-Orbit*
 
-Welcome to the **Raw Orbit vww 3³** repository. Knowledge is powerful and life is strange — let's find out together what this can become.
+Welcome to the **iam_universe** repository. Knowledge is powerful and life is strange — let's find out together what this can become.
 
 ---
 
@@ -17,49 +17,83 @@ Welcome to the **Raw Orbit vww 3³** repository. Knowledge is powerful and life 
 ## Project Structure
 
 ```
-Vibe-Wizzards-Wyrd/
+iam_universe/
 ├── README.md          # You are here
 ├── CONTRIBUTING.md    # How to contribute
 ├── GIST.md            # What is a GitHub Gist and how to use one
 ├── LEARNING.md        # Roadmap: how computers & AI work
 ├── ROADMAP.md         # 3³OS vision and phased development plan
-├── iam_sim.py         # IAM simulation & visualisation script
-├── scenarios/
-│   └── local_crisis.py  # Example: crisis-region grid scenario
-└── requirements.txt   # Python dependencies
+├── asm/               # Option 1: pure x86-64 NASM implementation
+├── c/                 # Option 2: C implementation
+├── lang/              # Option 3: .iam language interpreter + scenarios
+└── rust/              # Option 4: Rust implementation
 ```
 
 ---
 
-## IAM Simulation
+## IAM Simulation — four implementations
 
-`iam_sim.py` is a Python script that simulates and visualises **IAM (i.am) grids** in 2-D and 3-D.
+All four engines simulate the same diffusion model and write PPM images. Open any `.ppm` output with `feh`, `eog`, GIMP, or macOS Preview.
 
-### Install dependencies
+### Option 1 — NASM (pure x86-64 Assembly)
 
 ```bash
-pip install -r requirements.txt
+cd asm
+make                # nasm -f elf64 iam.asm -o iam.o && ld iam.o -o iam
+./iam > out.ppm
 ```
 
-### Usage
+### Option 2 — C
 
-| Command | Description |
-|---------|-------------|
-| `python iam_sim.py 2d` | 2-D final-state heatmap (32×32) |
-| `python iam_sim.py 2d-live` | 2-D live animated heatmap |
-| `python iam_sim.py 3d` | 3-D CLI slice at X=8 (16³) |
-| `python iam_sim.py 3d-cosmos` | 3-D COSMOS slice at Y=8 (16³) |
-| `python iam_sim.py --help` | Full option reference |
+```bash
+cd c
+make                # gcc -O2 iam_sim.c -o iam_sim -lm
+./iam_sim 2d                          # 32×32 heatmap, 60 steps
+./iam_sim local-crisis                # crisis patch, watch it diffuse
+./iam_sim 3d --axis x --idx 8        # 3-D slice
+./iam_sim 3d-cosmos                   # plasma-coloured COSMOS slice
+./iam_sim --help                      # full option reference
+```
 
-Each sub-command accepts `--size`, `--steps` / `--frames`, `--axis`, `--idx`, and `--init` flags — see `--help` for details.
+### Option 3 — .iam language
+
+```bash
+cd lang
+make                # gcc -O2 iamrun.c -o iamrun -lm
+./iamrun scenarios/local_crisis.iam
+./iamrun scenarios/boundary_stress.iam
+./iamrun scenarios/cosmos.iam
+```
+
+`.iam` script syntax:
+
+```
+GRID 2D 32 INIT 1000
+PATCH 14 14 5 5 SET 1500
+RUN 60
+SAVE out.ppm
+```
+
+### Option 4 — Rust
+
+```bash
+cd rust
+cargo build --release
+./target/release/iam_sim 2d
+./target/release/iam_sim local-crisis
+./target/release/iam_sim 3d-cosmos
+./target/release/iam_sim --help
+```
 
 ---
 
 ## Goals
 
 - [x] Organize and document the repository
-- [x] Add IAM simulation script (`iam_sim.py`)
-- [x] Define the core framework concepts ([ROADMAP.md](ROADMAP.md))
+- [x] Option 1 — NASM pure assembly engine (`asm/`)
+- [x] Option 2 — C engine (`c/`)
+- [x] Option 3 — `.iam` language interpreter (`lang/`)
+- [x] Option 4 — Rust engine (`rust/`)
 - [ ] Build a modular 3³OS package structure
 - [ ] Invite contributors to co-develop the vision
 

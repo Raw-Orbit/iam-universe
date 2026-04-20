@@ -4,7 +4,7 @@
 
 **Short answer: yes.**
 
-Not as a traditional operating system (kernel, device drivers, bootloader) — but as an **operating framework**: a modular, extensible Python toolkit that runs your IAM model, processes your research concepts, and visualises them. Think of it less like Linux and more like how NASA calls a mission control room an "operating system" — the thing that makes a complex system legible and steerable.
+Not as a traditional operating system (kernel, device drivers, bootloader) — but as an **operating framework**: a modular, extensible toolkit that runs your IAM model, processes your research concepts, and visualises them. Think of it less like Linux and more like how NASA calls a mission control room an "operating system" — the thing that makes a complex system legible and steerable.
 
 ---
 
@@ -18,44 +18,46 @@ Not as a traditional operating system (kernel, device drivers, bootloader) — b
      + (future) web or local GUI
 ```
 
-The simulation engine already exists as `iam_sim.py`. The goal of this roadmap is to grow it into something that feels like a coherent, personal operating framework.
+The simulation engine already exists in four forms (NASM, C, `.iam` language, Rust — see `asm/`, `c/`, `lang/`, `rust/`). The goal of this roadmap is to grow it into something that feels like a coherent, personal operating framework.
 
 ---
 
 ## Current state
 
 ```
-Vibe-Wizzards-Wyrd/
-├── iam_sim.py         ← the engine (done ✅)
-├── requirements.txt   ← dependencies (done ✅)
+iam_universe/
+├── asm/               ← Option 1: NASM engine          (done ✅)
+├── c/                 ← Option 2: C engine              (done ✅)
+├── lang/              ← Option 3: .iam language         (done ✅)
+├── rust/              ← Option 4: Rust engine           (done ✅)
 ├── README.md
 ├── CONTRIBUTING.md
 ├── GIST.md
-└── LEARNING.md
+├── LEARNING.md
+└── ROADMAP.md
 ```
 
 ---
 
-## Phase 1 — Modular core (next)
+## Phase 1 — Modular core ✅
 
-Split `iam_sim.py` into a proper package so each part can grow independently:
+The four engines are complete and independently buildable:
 
 ```
-iam/
-├── __init__.py
-├── grid.py        # make_2d, make_3d, step  ← move here from iam_sim.py
-├── modes.py       # standard / cli / cosmos mode definitions
-├── viz.py         # all visualisation functions
-└── cli.py         # argparse entry point
+iam_universe/
+├── asm/    # nasm -f elf64 iam.asm -o iam.o && ld iam.o -o iam
+├── c/      # gcc -O2 iam_sim.c -o iam_sim -lm
+├── lang/   # gcc -O2 iamrun.c -o iamrun -lm  →  ./iamrun scenario.iam
+└── rust/   # cargo build --release
 ```
 
-**Why:** makes it easy to add new modes, new grid types, or a GUI without touching the engine.
+Each engine accepts the same scenarios and writes PPM output. The `.iam` language (Option 3) is the long-term extensible interface.
 
-**Effort:** ~1 hour of refactoring.
+**Why:** having the engine in four languages means you can always drop to the level you understand, and the `.iam` scripting layer hides the complexity when you just want to run a scenario.
 
 ---
 
-## Phase 2 — Concept layer (your research as data)
+## Phase 2 — Concept layer ✅ (your research as data)
 
 Your research papers describe governance crises, societal tensions, and systemic boundaries. These map directly to grid configurations:
 
@@ -64,35 +66,33 @@ Your research papers describe governance crises, societal tensions, and systemic
 | Stable society | uniform grid at 1000.0 |
 | Local crisis | patch of cells set to 1500.0 |
 | Systemic boundary | hard wall (cells fixed at a boundary value) |
-| Tension propagation | watch values diffuse over `step()` iterations |
+| Tension propagation | watch values diffuse over `RUN` iterations |
 | Equilibrium / resolution | grid converges to a uniform value |
 
-**Goal:** add a `scenarios/` folder with named scenario files:
+**Done:** `lang/scenarios/` contains named `.iam` scenario files:
 
 ```
-scenarios/
-├── baseline.py        # uniform 1000.0
-├── local_crisis.py    # 5×5 patch at 1500, rest 1000
-├── boundary_stress.py # fixed left wall at 1500, right at 500
-└── cosmos_expansion.py# 3-D COSMOS mode with gradient seed
+lang/scenarios/
+├── baseline.iam          # uniform 1000.0
+├── local_crisis.iam      # 5×5 patch at 1500, rest 1000
+├── boundary_stress.iam   # fixed left wall at 1500, right at 500
+└── cosmos.iam            # 3-D COSMOS slice
 ```
 
-Each scenario is just a Python file that returns a configured grid. Run it:
+Run any scenario:
 ```bash
-python -m iam 3d --scenario local_crisis --axis x --idx 8
+cd lang && ./iamrun scenarios/local_crisis.iam
 ```
-
-**Effort:** ~2–3 hours.
 
 ---
 
 ## Phase 3 — Dashboard (see everything at once)
 
-Instead of one plot at a time, show a 2×2 dashboard:
+Instead of one image at a time, generate a composite view:
 
 ```
 ┌──────────────────┬──────────────────┐
-│  2D final state  │  2D live (t=N)   │
+│  2D final state  │  local crisis    │
 ├──────────────────┼──────────────────┤
 │  3D CLI slice    │  3D COSMOS slice │
 └──────────────────┴──────────────────┘
@@ -101,16 +101,16 @@ Instead of one plot at a time, show a 2×2 dashboard:
 This becomes your "mission control" — one command, full picture.
 
 ```bash
-python -m iam dashboard --scenario local_crisis
+cd lang && ./iamrun scenarios/local_crisis.iam
 ```
 
-**Effort:** ~2 hours using `matplotlib.pyplot.subplots`.
+**Planned:** a shell script (`dashboard.sh`) that runs all four scenarios and tiles the PPM outputs side by side using `montage` (ImageMagick) or similar.
 
 ---
 
 ## Phase 4 — Export & share
 
-- Save any plot to a PNG with `--save output.png`
+- Outputs are already PPM — convert to PNG with `convert out.ppm out.png` (ImageMagick)
 - Export grid state to CSV for use in other tools
 - Generate a Gist-ready code snippet from a scenario
 
@@ -132,23 +132,19 @@ streamlit run iam_dashboard.py
 
 ## Naming
 
-`3³OS` works well as the project identity. The cube (3³ = 27) is already in the repo name. A few ways to use it:
+`iam_universe` + `3³OS` work together as the project identity. A few ways to use it:
 
-- **Repository description:** *"3³OS — the IAM operating framework by E.C.Pabel"*
-- **CLI name:** `python -m iam` (already valid Python package syntax)
+- **Repository name:** `iam_universe` (already set ✅)
 - **Tagline:** *"The system that makes systemic thinking legible."*
+- **CLI feel:** `./iamrun scenario.iam` — your language, your commands
 
 ---
 
 ## Immediate next step
 
-The single most impactful thing you can do right now:
-
-1. Create `scenarios/local_crisis.py` — a 32×32 grid where the center 5×5 cells are set to 1500.0 instead of 1000.0
-2. Run `python iam_sim.py 2d-live` with that grid
-3. Watch the tension diffuse outward across the field
-
-That is your governance crisis model, running as code. One file, ten lines.
+1. Run `cd lang && ./iamrun scenarios/local_crisis.iam`
+2. Open `local_crisis.ppm` in any image viewer
+3. Watch the tension gradient — that is your governance crisis model, running as compiled code with zero Python, zero dependencies
 
 ---
 
