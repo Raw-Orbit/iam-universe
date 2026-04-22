@@ -23,6 +23,7 @@ iam_universe/
 ├── GIST.md            # What is a GitHub Gist and how to use one
 ├── LEARNING.md        # Roadmap: how computers & AI work
 ├── ROADMAP.md         # 3³OS vision and phased development plan
+├── VM_OS_HOWTO.md     # How to build your own VM and OS from scratch
 ├── asm/               # Option 1: pure x86-64 NASM implementation
 ├── c/                 # Option 2: C implementation
 ├── lang/              # Option 3: .iam language interpreter + scenarios
@@ -94,6 +95,7 @@ cargo build --release
 - [x] Option 2 — C engine (`c/`)
 - [x] Option 3 — `.iam` language interpreter (`lang/`)
 - [x] Option 4 — Rust engine (`rust/`)
+- [x] How-To Build your own VM and OS ([VM_OS_HOWTO.md](VM_OS_HOWTO.md))
 - [ ] Build a modular 3³OS package structure
 - [ ] Invite contributors to co-develop the vision
 
